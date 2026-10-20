@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <script>document.documentElement.classList.add('js')</script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Personnaliser — AdhanBox</title>
+  <meta name="description" content="Composez votre AdhanBox en 3D : couleur du châssis, motif de la façade et sa teinte. Toutes les finitions sont mates.">
+  <meta name="theme-color" content="#0C5B45">
+  <link rel="canonical" href="https://adhanbox.fr/personnaliser.html">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="AdhanBox">
+  <meta property="og:url" content="https://adhanbox.fr/personnaliser.html">
+  <meta property="og:title" content="Personnaliser votre AdhanBox">
+  <meta property="og:description" content="Composez votre AdhanBox en 3D : couleur du châssis, motif de la façade et sa teinte, puis commandez.">
+  <meta property="og:locale" content="fr_FR">
+  <meta property="og:image" content="https://adhanbox.fr/og-adhanbox.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://adhanbox.fr/og-adhanbox.jpg">
+  <link rel="icon" type="image/png" href="logo-app.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Les polices Google sont demandees par le chargeur en fin de page, APRES le
+       premier affichage : si la feuille arrivait avant, les cinq fichiers de
+       police partaient avant le premier rendu et le retardaient. Les textes
+       s'affichent d'abord avec la police de secours (display=swap). -->
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500;1,9..144,600&family=Inter:wght@400;500;600;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet"></noscript>
+  <link rel="preload" as="image" href="coloris/noir--or.jpg" fetchpriority="high">
+  <link rel="stylesheet" href="styles.css?v=2026100901">
+</head>
+<body data-page="personnaliser">
+<!-- Bandeau defilant (09/10/2026). Contenu identique sur toutes les pages commerciales :
+     le modifier ici ET dans les autres pages (meme bloc). -->
+<div class="bandeau" role="region" aria-label="Nos engagements"><div class="bandeau-piste"><div class="bandeau-groupe"><span data-fin-offre="2026-10-31">Offre de lancement : 95 € au lieu de 119 €, jusqu'au 31 octobre</span><span>Livraison offerte en point relais</span><span>Accès à vie, sans abonnement</span><span>Retour offert 14 jours</span><span>Paiement en 3× sans frais</span><span>Fait main en France, à la commande</span></div><div class="bandeau-groupe" aria-hidden="true"><span data-fin-offre="2026-10-31">Offre de lancement : 95 € au lieu de 119 €, jusqu'au 31 octobre</span><span>Livraison offerte en point relais</span><span>Accès à vie, sans abonnement</span><span>Retour offert 14 jours</span><span>Paiement en 3× sans frais</span><span>Fait main en France, à la commande</span></div></div></div>
+  <main>
+    <section id="configurateur" class="first-section">
+    <div class="container">
+      <div class="section-head">
+        <div class="eyebrow">Personnalisez le vôtre</div>
+        <h2>Composez <em>votre AdhanBox</em></h2>
+        <p>Chaque boîtier est imprimé en 3D à la commande. Choisissez la couleur du châssis, le motif de la façade et sa teinte&nbsp;: toutes les finitions sont mates.</p>
+      </div>
+
+      <div class="configurator-panel">
+        <!-- Apercu 3D de la configuration. La photo du chassis sert d'image
+             d'attente : elle s'affiche tout de suite, la 3D (three.js, ~500 Ko)
+             la remplace des qu'elle est prete. Les photos reelles sont dans la
+             bande des coloris, en dessous. -->
+        <div class="config-viewport" id="apercu">
+          <img id="apercu-photo" src="coloris/noir--or.jpg" width="720" height="960"
+               alt="AdhanBox, châssis Noir, motif or" fetchpriority="high" decoding="async">
+          <div id="canvas3d" role="img" aria-label="Aperçu 3D interactif du boîtier AdhanBox" hidden></div>
+          <p class="apercu-legende" id="apercu-legende">Aperçu 3D</p>
+          <div class="viewport-hint" id="viewport-hint" hidden>Glissez pour pivoter</div>
+        </div>
+
+        <div class="config-controls" id="commande">
+          <div>
+            <span class="control-label">Couleur du châssis</span>
+            <div class="swatches" id="finish-swatches" role="group" aria-label="Couleur du châssis"></div>
+            <p class="control-note" id="finish-note">Noir — finition mate.</p>
+          </div>
+
+          <div>
+            <span class="control-label">Motif de la façade</span>
+            <div class="pill-options" role="group" aria-label="Motif de mandala">
+              <!-- Les trois motifs ont un nom et une image (rendu du modele 3D,
+                   docs/motifs/). Le numero reste la reference de l'atelier :
+                   il figure dans la commande Stripe (« Motif 3 "Arabesque" »). -->
+              <button class="pill-btn" data-mandala="0">Aucun</button>
+              <button class="pill-btn motif-btn" data-mandala="1" aria-label="Motif 1, Rosace"><img src="motifs/motif1.png" alt="" width="40" height="40" loading="lazy"><span>Rosace</span></button>
+              <button class="pill-btn motif-btn" data-mandala="2" aria-label="Motif 2, Lotus"><img src="motifs/motif2.png" alt="" width="40" height="40" loading="lazy"><span>Lotus</span></button>
+              <button class="pill-btn motif-btn active" data-mandala="3" aria-label="Motif 3, Arabesque"><img src="motifs/motif3.png" alt="" width="40" height="40"><span>Arabesque</span></button>
+            </div>
+          </div>
+
+          <div id="mandala-color-group">
+            <span class="control-label">Couleur du motif</span>
+            <div class="swatches" id="mcolor-swatches" role="group" aria-label="Couleur du motif"></div>
+          </div>
+
+          <div id="delivery-group">
+            <span class="control-label">Livraison</span>
+            <div class="pill-options" role="group" aria-label="Mode de livraison">
+              <button class="pill-btn active" data-livraison="relais" id="deliv-relais">Point relais — offert</button>
+              <button class="pill-btn" data-livraison="domicile">À domicile — +5 €</button>
+            </div>
+            <p class="control-note" id="relais-note">Mondial Relay, remis en 2 à 4 jours ouvrés. Vous choisirez votre point relais juste après le paiement&nbsp;: le plus proche de chez vous vous est proposé, et vous pourrez en changer jusqu'à l'expédition.</p>
+            <p class="control-note" id="domicile-note" hidden>Colissimo suivi, remis à votre porte en 2 à 3 jours ouvrés (5&nbsp;€).</p>
+          </div>
+
+          <a href="#" id="config-cta" class="btn btn-gold" style="align-self: flex-start;">
+            Commander cette configuration — 95 €
+          </a>
+          <p class="control-note" style="margin-top:.5rem;" id="cta-note">Paiement sécurisé par Stripe · 3× sans frais possible · point relais offert.</p>
+          <!-- Preuve sociale a cote du bouton. Note et nombre d'avis mis a jour
+               par configurator.js depuis /api/reviews ; la citation est mot pour
+               mot celle de l'avis publie sur avis.html. -->
+          <p class="control-note confiance" id="confiance"><span class="etoiles" aria-hidden="true">★★★★★</span> <b id="note-moyenne">5/5</b> · <span id="nb-avis">8 avis</span> — « on croirait que l'appel de la prière se fait dehors ! » <span class="qui">Syrine, Paris</span> · <a href="avis.html">Lire les avis</a></p>
+        </div>
+      </div>
+
+      <!-- Les coloris en photo. La liste est ECRITE PAR
+           outils_production/maj_coloris.py (une photo par chassis, dans
+           docs/coloris/). configurator.js y ramene le coloris choisi et nomme
+           ceux qui n'ont pas encore de photo. -->
+      <div class="coloris reveal" data-coloris>
+        <p class="control-label coloris-titre">Tous les coloris, en photo</p>
+        <div class="coloris-cadre">
+          <div class="coloris-piste" tabindex="0" role="group"
+               aria-roledescription="carrousel" aria-label="Les coloris en photo">
+<!-- coloris:debut -->
+          <figure data-finish="noir">
+            <img src="coloris/mini/noir--or.jpg" width="360" height="480"
+                 alt="AdhanBox, châssis Noir, motif or" loading="lazy" decoding="async">
+            <figcaption><span class="coloris-nom">Noir</span><span class="coloris-motif">motif or</span></figcaption>
+          </figure>
+          <figure data-finish="vert-foret">
+            <img src="coloris/mini/vert-foret--or.jpg" width="360" height="480"
+                 alt="AdhanBox, châssis Vert forêt, motif or" loading="lazy" decoding="async">
+            <figcaption><span class="coloris-nom">Vert forêt</span><span class="coloris-motif">motif or</span></figcaption>
+          </figure>
+          <figure data-finish="gris-texture">
+            <img src="coloris/mini/gris-texture--noir.jpg" width="360" height="480"
+                 alt="AdhanBox, châssis Gris texturé, motif noir" loading="lazy" decoding="async">
+            <figcaption><span class="coloris-nom">Gris texturé</span><span class="coloris-motif">motif noir</span></figcaption>
+          </figure>
+          <figure data-finish="marron">
+            <img src="coloris/mini/marron--blanc.jpg" width="360" height="480"
+                 alt="AdhanBox, châssis Marron, motif blanc" loading="lazy" decoding="async">
+            <figcaption><span class="coloris-nom">Marron</span><span class="coloris-motif">motif blanc</span></figcaption>
+          </figure>
+          <figure data-finish="cacahuete">
+            <img src="coloris/mini/cacahuete--blanc.jpg" width="360" height="480"
+                 alt="AdhanBox, châssis Marron cacahuète, motif blanc" loading="lazy" decoding="async">
+            <figcaption><span class="coloris-nom">Marron cacahuète</span><span class="coloris-motif">motif blanc</span></figcaption>
+          </figure>
+          <figure data-finish="gris">
+            <img src="coloris/mini/gris--blanc.jpg" width="360" height="480"
+                 alt="AdhanBox, châssis Gris, motif blanc" loading="lazy" decoding="async">
+            <figcaption><span class="coloris-nom">Gris</span><span class="coloris-motif">motif blanc</span></figcaption>
+          </figure>
+          <figure data-finish="beige">
+            <img src="coloris/mini/beige--noir.jpg" width="360" height="480"
+                 alt="AdhanBox, châssis Beige, motif noir" loading="lazy" decoding="async">
+            <figcaption><span class="coloris-nom">Beige</span><span class="coloris-motif">motif noir</span></figcaption>
+          </figure>
+          <figure data-finish="marbre">
+            <img src="coloris/mini/marbre--noir.jpg" width="360" height="480"
+                 alt="AdhanBox, châssis Marbre, motif noir" loading="lazy" decoding="async">
+            <figcaption><span class="coloris-nom">Marbre</span><span class="coloris-motif">motif noir</span></figcaption>
+          </figure>
+          <figure data-finish="creme">
+            <img src="coloris/mini/creme--blanc.jpg" width="360" height="480"
+                 alt="AdhanBox, châssis Crème, motif blanc" loading="lazy" decoding="async">
+            <figcaption><span class="coloris-nom">Crème</span><span class="coloris-motif">motif blanc</span></figcaption>
+          </figure>
+          <figure data-finish="blanc">
+            <img src="coloris/mini/blanc--noir.jpg" width="360" height="480"
+                 alt="AdhanBox, châssis Blanc, motif noir" loading="lazy" decoding="async">
+            <figcaption><span class="coloris-nom">Blanc</span><span class="coloris-motif">motif noir</span></figcaption>
+          </figure>
+<!-- coloris:fin -->
+          </div>
+          <button class="coloris-fleche coloris-prec" type="button" aria-label="Coloris précédents" hidden>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+          </button>
+          <button class="coloris-fleche coloris-suiv" type="button" aria-label="Coloris suivants" hidden>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+          </button>
+        </div>
+        <p class="coloris-note">Photos réelles.<span id="coloris-sans-photo"></span></p>
+      </div>
+
+    </div>
+  </section>
+  </main>
+  <!-- Barre d'achat fixe, mobile seulement : prix et bouton toujours a
+       portee de pouce. configurator.js la masque quand le vrai bouton
+       de commande est a l'ecran. -->
+  <div class="barre-achat" id="barre-achat">
+    <div class="prix"><span><b>95&nbsp;€</b><s>119&nbsp;€</s></span><span class="detail">ou 3 × 31,67&nbsp;€ · point relais offert<span data-fin-offre="2026-10-31"> · offre jusqu'au 31 oct.</span></span></div>
+    <a href="#commande" class="btn btn-gold">Commander</a>
+  </div>
+  <script>
+  // Les scripts partent APRES le premier affichage : la photo et le texte ne
+  // doivent attendre ni leur telechargement ni leur execution. Deux images
+  // d'animation apres le premier rendu, ou 1,5 s au plus (onglet en arriere-plan,
+  // ou le rendu tarde) : le premier des deux lance le chargement, une seule fois.
+  (function () {
+    var fait = false;
+    function charger() {
+      if (fait) return;
+      fait = true;
+      var polices = document.createElement('link');
+      polices.rel = 'stylesheet';
+      polices.href = 'https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500;1,9..144,600&family=Inter:wght@400;500;600;700&family=Amiri:wght@400;700&display=swap';
+      document.head.appendChild(polices);
+      ['configurator.js?v=20261007', 'site.js'].forEach(function (src) {
+        var el = document.createElement('script');
+        el.src = src;
+        el.async = false;   // garde l'ordre : configurateur, puis en-tete et pied de page
+        document.body.appendChild(el);
+      });
+    }
+    if (window.requestAnimationFrame) requestAnimationFrame(function () { requestAnimationFrame(charger); });
+    setTimeout(charger, 1500);
+  })();
+  </script>
+<!-- plan:debut -->
+<nav aria-label="Plan du site" style="max-width:1100px;margin:0 auto;padding:18px 20px 34px;font-size:.82rem;line-height:1.9;opacity:.55">
+  <ul style="list-style:none;display:flex;flex-wrap:wrap;gap:0 18px;margin:0;padding:0">
+    <li><a href="./">Accueil</a></li>
+    <li><a href="produit.html">Le produit</a></li>
+    <li><a href="avis.html">Avis clients</a></li>
+    <li><a href="faq.html">Questions fréquentes</a></li>
+    <li><a href="horloge-adhan.html">Horloge adhan</a></li>
+    <li><a href="android.html">L'application sur Android</a></li>
+    <li><a href="contact.html">Contact</a></li>
+    <li><a href="conformite.html">Conformité</a></li>
+    <li><a href="cgv.html">Conditions générales de vente</a></li>
+    <li><a href="mentions-legales.html">Mentions légales</a></li>
+    <li><a href="privacy.html">Confidentialité</a></li>
+  </ul>
+</nav>
+<!-- plan:fin -->
+</body>
+</html>

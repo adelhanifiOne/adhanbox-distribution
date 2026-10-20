@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AdhanBox — essayez-la</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#08402F">
+<link rel="icon" type="image/png" href="logo-app.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Inter:wght@400;500;600;700&family=Amiri:wght@700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --vert:#0C5B45; --vert-fonce:#08402F; --or:#E9C46A; --creme:#FAF6EE;
+    --texte:#F2EFE7; --texte-2:#A9BDB4; --carte:rgba(255,255,255,.07);
+    --bord:rgba(233,196,106,.22);
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  body{
+    margin:0;min-height:100dvh;
+    background:radial-gradient(120% 80% at 50% 0%,#0F6B51 0%,var(--vert-fonce) 55%,#05261C 100%);
+    color:var(--texte);font-family:Inter,system-ui,sans-serif;
+    padding:max(18px,env(safe-area-inset-top)) 18px calc(24px + env(safe-area-inset-bottom));
+  }
+  .wrap{max-width:520px;margin:0 auto}
+
+  header{text-align:center;padding:6px 0 18px}
+  .logo{width:74px;height:74px;display:block;margin:0 auto 10px;border-radius:16px}
+  h1{font-family:Fraunces,Georgia,serif;font-weight:700;font-size:30px;margin:0;color:var(--or);letter-spacing:.01em}
+  .sous{color:var(--texte-2);font-size:14.5px;margin:8px 0 0;line-height:1.5}
+
+  .etat{
+    display:flex;align-items:center;justify-content:center;gap:8px;
+    margin:16px 0 0;font-size:13px;color:var(--texte-2);
+    background:var(--carte);border:1px solid var(--bord);border-radius:999px;padding:8px 14px;
+  }
+  .pastille{width:8px;height:8px;border-radius:50%;background:#6B7A72;flex:none}
+  .pastille.ok{background:#5FD3A0;box-shadow:0 0 0 4px rgba(95,211,160,.18)}
+  .pastille.ko{background:#E48787}
+
+  .recitant{font-size:12.5px;color:var(--texte-2);margin:-4px 0 10px;opacity:.85}
+  h2{font-size:11.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--or);
+     font-weight:700;margin:26px 0 10px;opacity:.9}
+
+  .grille{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  button{font:inherit;color:inherit;cursor:pointer;border:1px solid var(--bord);
+         background:var(--carte);border-radius:16px;padding:16px 12px;
+         display:flex;flex-direction:column;align-items:center;gap:7px;
+         transition:transform .12s ease,background .12s ease}
+  button:active{transform:scale(.96);background:rgba(233,196,106,.16)}
+  button:disabled{opacity:.4;pointer-events:none}
+  button .ico{font-size:24px;line-height:1}
+  button .lbl{font-size:14px;font-weight:600}
+  button .sub{font-size:11.5px;color:var(--texte-2);font-weight:400}
+  button.large{grid-column:1/-1;flex-direction:row;justify-content:center;gap:12px;padding:18px}
+  button.or{background:var(--or);color:#08402F;border-color:var(--or)}
+  button.or .sub{color:rgba(8,64,47,.7)}
+  button.stop{background:rgba(228,135,135,.14);border-color:rgba(228,135,135,.4)}
+
+  .couleurs{display:flex;gap:9px;justify-content:center;flex-wrap:wrap;margin-top:4px}
+  .pot{width:46px;height:46px;border-radius:50%;border:2px solid rgba(255,255,255,.22);cursor:pointer}
+  .pot:active{transform:scale(.9)}
+
+  .volume{display:flex;align-items:center;gap:12px;
+          background:var(--carte);border:1px solid var(--bord);border-radius:16px;padding:14px 16px}
+  .volume .ico{font-size:19px;line-height:1;flex:none}
+  input[type=range]{flex:1;-webkit-appearance:none;appearance:none;background:transparent;height:28px}
+  input[type=range]::-webkit-slider-runnable-track{height:6px;border-radius:999px;
+    background:linear-gradient(90deg,var(--or) var(--p,60%),rgba(255,255,255,.16) var(--p,60%))}
+  input[type=range]::-moz-range-track{height:6px;border-radius:999px;background:rgba(255,255,255,.16)}
+  input[type=range]::-moz-range-progress{height:6px;border-radius:999px;background:var(--or)}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;
+    width:24px;height:24px;border-radius:50%;background:var(--or);border:none;margin-top:-9px;
+    box-shadow:0 2px 8px rgba(0,0,0,.35)}
+  input[type=range]::-moz-range-thumb{width:24px;height:24px;border-radius:50%;
+    background:var(--or);border:none;box-shadow:0 2px 8px rgba(0,0,0,.35)}
+  .vval{text-align:center;font-size:13px;color:var(--texte-2);margin-top:8px}
+
+  /* Elements inertes tant que la boite ne s'est pas annoncee : visibles, mais
+     visiblement sans effet. Les laisser actifs invitait a appuyer dans le vide. */
+  .inerte{opacity:.35;pointer-events:none;filter:saturate(.4)}
+
+  .msg{min-height:22px;text-align:center;font-size:13.5px;margin:14px 0 0;color:var(--or);font-weight:500}
+
+  .final{margin-top:30px;border-top:1px solid var(--bord);padding-top:22px;text-align:center}
+  .final p{color:var(--texte-2);font-size:14.5px;line-height:1.55;margin:0 0 16px}
+  a.cta{display:block;background:var(--or);color:#08402F;text-decoration:none;
+        font-weight:700;font-size:16.5px;padding:16px;border-radius:14px}
+  .promo{display:inline-block;margin-top:12px;font-size:13.5px;color:var(--texte-2)}
+  .promo b{color:var(--or);font-family:'Fraunces',serif;letter-spacing:.06em}
+  .reseaux{display:flex;gap:10px;margin-top:14px}
+  .reseaux a{flex:1;text-decoration:none;color:var(--texte);background:var(--carte);
+             border:1px solid var(--bord);border-radius:12px;padding:13px;font-size:14px;font-weight:600}
+  footer{text-align:center;color:var(--texte-2);font-size:11.5px;margin-top:24px;line-height:1.6}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <img class="logo" alt="AdhanBox" src="logo-app.png">
+    <h1>AdhanBox</h1>
+    <p class="sous">Essayez-la. Touchez un bouton, elle répond ici, devant vous.</p>
+    <div class="etat"><span class="pastille" id="pastille"></span><span id="etat">Connexion…</span></div>
+  </header>
+
+  <h2>L'appel à la prière</h2>
+  <div class="grille">
+    <button data-cmd="adhan" data-val="2"><span class="ico">🕌</span><span class="lbl">Adhan</span><span class="sub">Ahmed al-Imadi</span></button>
+    <button data-cmd="adhan" data-val="4"><span class="ico">🕌</span><span class="lbl">Adhan</span><span class="sub">Mokhtar Hadj Slimane</span></button>
+    <button data-cmd="adhan" data-val="5"><span class="ico">🕌</span><span class="lbl">Adhan</span><span class="sub">Nasser al-Qatami</span></button>
+    <button data-cmd="adhan" data-val="6"><span class="ico">🕌</span><span class="lbl">Adhan</span><span class="sub">Majed al-Hamathani</span></button>
+  </div>
+
+  <h2>Le Coran et les invocations</h2>
+  <p class="recitant">Récités par Mishary al-Afasy</p>
+  <div class="grille">
+    <button data-cmd="play" data-val="/quran/afs/001.mp3"><span class="ico">📖</span><span class="lbl">Al-Fatiha</span></button>
+    <button data-cmd="play" data-val="/quran/al-mulk.mp3"><span class="ico">📖</span><span class="lbl">Al-Mulk</span></button>
+    <button data-cmd="play" data-val="/quran/al-kahf.mp3"><span class="ico">📖</span><span class="lbl">Al-Kahf</span></button>
+    <button data-cmd="play" data-val="/mp3/0001.mp3"><span class="ico">🤲</span><span class="lbl">L'invocation</span><span class="sub">après l'adhan</span></button>
+    <button data-cmd="play" data-val="/azkar/sabah.mp3"><span class="ico">🌅</span><span class="lbl">Azkar du matin</span></button>
+    <button data-cmd="play" data-val="/azkar/masaa.mp3"><span class="ico">🌙</span><span class="lbl">Azkar du soir</span></button>
+    <button class="large stop" data-cmd="stop"><span class="ico">⏹</span><span class="lbl">Arrêter le son</span></button>
+  </div>
+
+  <h2>Le volume</h2>
+  <div class="volume">
+    <span class="ico">🔈</span>
+    <input type="range" id="vol" min="0" max="100" step="5" value="60"
+           aria-label="Volume">
+    <span class="ico">🔊</span>
+  </div>
+  <p class="vval" id="volval">—</p>
+
+  <h2>La lumière</h2>
+  <div class="couleurs">
+    <div class="pot" style="background:#E9C46A" data-scene="1" title="Doré"></div>
+    <div class="pot" style="background:#5FD3A0" data-scene="2" title="Vert"></div>
+    <div class="pot" style="background:#7FB3E8" data-scene="3" title="Bleu"></div>
+    <div class="pot" style="background:#E4879F" data-scene="4" title="Rose"></div>
+    <div class="pot" style="background:linear-gradient(135deg,#E9C46A,#5FD3A0,#7FB3E8)" data-scene="5" title="Dégradé"></div>
+    <div class="pot" style="background:#1a1a1a" data-scene="0" title="Éteindre"></div>
+  </div>
+
+  <p class="msg" id="msg"></p>
+
+  <div class="final">
+    <p>Fabriquée à la main en France, une par une.<br>L'adhan à l'heure de <b>votre</b> mosquée, chez vous.</p>
+    <a class="cta" id="cta" href="https://adhanbox.fr/personnaliser.html?promo=INSTA5&amp;src=mosquee">Commander la mienne →</a>
+    <span class="promo">Code <b>INSTA5</b> — 5&nbsp;€ de moins pour vous</span>
+    <div class="reseaux">
+      <a href="https://www.instagram.com/adhanbox" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://www.tiktok.com/@adhanbox_officiel" target="_blank" rel="noopener">TikTok</a>
+    </div>
+  </div>
+
+  <footer>
+    AdhanBox · Adel Hanifi · Vic-en-Bigorre<br>
+    Merci de laisser la boîte en place pour les frères et sœurs après vous.
+  </footer>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mqtt/5.10.1/mqtt.min.js"></script>
+<script>
+// ── Page de démonstration en mosquée ────────────────────────────────────────
+// Le téléphone du fidèle reste sur SA connexion : il garde internet, donc les
+// boutons Instagram et « commander » fonctionnent. C'est toute la raison pour
+// laquelle on ne fait PAS de point d'accès Wi-Fi sur la boîte.
+//
+// Le lien passe par un broker MQTT public. Le préfixe des sujets contient
+// l'identifiant unique de la carte, transmis dans l'adresse (#...), donc seule
+// la boîte de la mosquée réagit, et personne ne devine les sujets.
+//
+// Les garde-fous (plafond de volume, délai entre deux adhans, silence autour
+// des heures de prière) sont DANS LE FIRMWARE, pas ici : une page se contourne,
+// pas le boîtier. Quand il refuse, il le dit, et on l'affiche.
+const BROKER = 'wss://broker.hivemq.com:8884/mqtt';
+// On accepte les deux formes, « #b0937af61b44 » et « ?id=b0937af61b44 » :
+// certains lecteurs de QR code et certaines messageries coupent le fragment en
+// ouvrant le lien, et la page se retrouverait sans identifiant sans que
+// personne comprenne pourquoi.
+const ID = ((location.hash || '').replace('#', '')
+            || new URLSearchParams(location.search).get('id')
+            || '').trim().toLowerCase();
+
+const $ = (s) => document.querySelector(s);
+const msg = $('#msg'), etat = $('#etat'), pastille = $('#pastille');
+let client = null, pret = false;
+let vMax = 15;              // plafond ; remplace par celui que la boite annonce
+// Presence de la BOITE, distincte de notre propre liaison au serveur. Les deux
+// etaient confondues : une boite debranchee laissait la page afficher « Prete »
+// et le visiteur appuyait dans le vide, en concluant que le produit ne marche
+// pas. null = pas encore su.
+let boitePresente = null;
+let minuteurPresence = null;
+let curseurTenu = false;    // un doigt tient le curseur de volume
+
+function dire(t, duree = 3200) {
+  msg.textContent = t;
+  if (duree) setTimeout(() => { if (msg.textContent === t) msg.textContent = ''; }, duree);
+}
+
+if (!/^[0-9a-f]{12}$/.test(ID)) {
+  etat.textContent = 'Lien incomplet — rescannez le QR code';
+  pastille.className = 'pastille ko';
+} else {
+  const base = 'adhanbox/' + ID;
+
+  // ── Volume ───────────────────────────────────────────────────────────────
+  // Le curseur va de 0 a 100 % de ce qui est AUTORISE, pas de la puissance de
+  // la boite : le plafond est une affaire entre Adel et la mosquee, le visiteur
+  // n'a pas a voir un curseur qui s'arrete au milieu sans explication.
+  const vol = $('#vol'), volval = $('#volval');
+
+  const peindre = (pct) => {
+    vol.style.setProperty('--p', pct + '%');
+    volval.textContent = pct === 0 ? 'Silencieux' : 'Volume ' + pct + ' %';
+  };
+  // Depuis la valeur absolue de la boite (0..vMax) vers le pourcentage affiche.
+  const poserVolume = (abs) => {
+    const pct = Math.round(Math.min(abs, vMax) / vMax * 20) * 5;
+    vol.value = pct; peindre(pct);
+  };
+
+  client = mqtt.connect(BROKER, { connectTimeout: 8000, reconnectPeriod: 4000, clean: true });
+
+  // Trois etats, et le troisieme compte autant que les deux autres.
+  // Un boitier d'avant la 3.0.40 n'annonce pas sa presence : il faut attendre
+  // son battement d'etat, jusqu'a trente secondes. Griser les commandes pendant
+  // ce temps rendrait une boite parfaitement vivante inutilisable a l'ecran.
+  // Tant qu'on ne SAIT pas, on laisse donc appuyer - et c'est l'appui lui-meme
+  // qui tranche, puisqu'une boite presente repond en une seconde.
+  const peindreEtat = () => {
+    if (!pret) { pastille.className = 'pastille'; etat.textContent = 'Connexion…'; return; }
+    if (boitePresente === true) {
+      pastille.className = 'pastille ok';
+      etat.textContent = 'Prête — à vous de jouer';
+    } else if (boitePresente === false) {
+      pastille.className = 'pastille ko';
+      // « Ne repond pas » disait « ce produit est en panne » et invitait le
+      // fidele a signaler un incident inexistant. A la mosquee de Bilal, les
+      // gerants debranchent la boite en dehors des heures d'ouverture : le cas
+      // le plus FREQUENT d'absence est donc parfaitement normal. On le dit
+      // comme tel.
+      etat.textContent = 'Elle est éteinte pour le moment';
+    } else {
+      pastille.className = 'pastille';
+      etat.textContent = 'Recherche de la boîte…';
+    }
+    // On ne grise QUE si l'absence est etablie, jamais dans le doute.
+    document.querySelectorAll('button[data-cmd], .pot, #vol')
+      .forEach((el) => { el.classList.toggle('inerte', boitePresente === false); });
+  };
+
+  // Tout signe de vie vaut preuve de presence : le message de presence de la
+  // 3.0.40, mais aussi un battement d'etat non retenu, ou n'importe quelle
+  // reponse a une commande. C'est ce qui fait marcher la page avec les
+  // boitiers deja poses, sans les reflasher.
+  let attenteReponse = null;
+  const signeDeVie = () => {
+    clearTimeout(minuteurPresence);
+    clearTimeout(attenteReponse);
+    if (boitePresente !== true) { boitePresente = true; peindreEtat(); }
+  };
+
+  client.on('connect', () => {
+    pret = true;
+    client.subscribe(base + '/presence');
+    client.subscribe(base + '/audio/status');
+    client.subscribe(base + '/status');
+    // Le message de presence est retenu : s'il existe, il arrive tout de suite.
+    // Passe ce delai sans rien, c'est qu'aucune boite ne s'est jamais annoncee.
+    // 35 s : le boitier publie son etat toutes les 30 s depuis longtemps. Passe
+    // ce delai sans le moindre signe, l'absence n'est plus un doute.
+    clearTimeout(minuteurPresence);
+    minuteurPresence = setTimeout(() => {
+      if (boitePresente !== true) { boitePresente = false; peindreEtat(); }
+    }, 35000);
+    peindreEtat();
+  });
+  client.on('reconnect', () => { pret = false; peindreEtat(); });
+  client.on('close', () => { pret = false; peindreEtat(); });
+  client.on('error', () => { pastille.className = 'pastille ko'; etat.textContent = 'Connexion impossible'; });
+
+  client.on('message', (sujet, charge, paquet) => {
+    const v = charge.toString();
+
+    // Attention a l'ordre : « adhanbox/<id>/audio/status » se termine LUI AUSSI
+    // par « /status ». On teste donc le plus precis d'abord.
+    if (sujet.endsWith('/presence')) {
+      clearTimeout(minuteurPresence);
+      clearTimeout(attenteReponse);
+      boitePresente = (v === 'presente');
+      peindreEtat();
+      return;
+    }
+
+    if (sujet.endsWith('/audio/status')) {
+      signeDeVie();   // une reponse, donc elle est bien la
+      // Le firmware répond « refus:<raison> » quand un garde-fou s'applique.
+      if (v.startsWith('refus:')) { dire('⏸ ' + v.slice(6), 4000); return; }
+      if (v === 'playing') dire('▶ En cours de lecture');
+      if (v === 'stopped') dire('⏹ Arrêté');
+      return;
+    }
+
+    // L'etat general, retenu par le serveur : il arrive des l'abonnement et
+    // porte le volume du moment et le plafond autorise. La page s'y accorde
+    // plutot que de coder le plafond en dur, qui se desynchroniserait des
+    // qu'Adel le change depuis /api/mosquee.
+    if (sujet.endsWith('/status')) {
+      // Un etat RETENU est la derniere photo connue, peut-etre vieille de
+      // plusieurs jours : il ne prouve rien. Seul un message frais compte.
+      if (paquet && !paquet.retain) signeDeVie();
+      try {
+        const st = JSON.parse(v);
+        if (Number.isFinite(st.volume_max) && st.volume_max > 0) vMax = st.volume_max;
+        if (Number.isFinite(st.volume) && !curseurTenu) poserVolume(st.volume);
+      } catch { /* un etat illisible ne doit pas casser la page */ }
+    }
+  });
+
+  const envoyer = (sujet, valeur) => {
+    if (!pret) { dire('Connexion en cours, un instant…'); return false; }
+    if (boitePresente === false) { dire('La boîte est éteinte — revenez à l\'heure de la prière 🌙', 5000); return false; }
+    client.publish(base + sujet, String(valeur));
+    // Presence encore inconnue : cet appui sert de sonde. Une boite vivante
+    // repond en une seconde ; passe six, on tranche et on le dit.
+    if (boitePresente === null) {
+      clearTimeout(attenteReponse);
+      attenteReponse = setTimeout(() => {
+        if (boitePresente !== true) {
+          boitePresente = false; peindreEtat();
+          dire('La boîte est éteinte — revenez à l\'heure de la prière 🌙', 6000);
+        }
+      }, 6000);
+    }
+    return true;
+  };
+
+  document.querySelectorAll('button[data-cmd]').forEach((b) => {
+    b.addEventListener('click', () => {
+      const c = b.dataset.cmd;
+      if (c === 'adhan' && envoyer('/adhan/trigger', b.dataset.val)) dire('🕌 Adhan lancé');
+      // Le Coran et les azkar se jouent par CHEMIN, pas par numero : seuls les
+      // adhans et l'invocation vivent dans /mp3/000N.mp3. Le firmware accepte
+      // les deux formes depuis la 3.0.37.
+      if (c === 'play'  && envoyer('/audio/play',    b.dataset.val)) dire('▶ Lecture lancée');
+      // Un retour tout de suite : sans lui le bouton paraissait mort le temps
+      // que la boite reponde, et on appuyait trois fois.
+      if (c === 'stop')  { envoyer('/audio/stop',    '1'); dire('⏹ Arrêt…'); }
+    });
+  });
+
+  document.querySelectorAll('.pot').forEach((p) => {
+    p.addEventListener('click', () => {
+      if (envoyer('/led/scenario', p.dataset.scene))
+        dire(p.dataset.scene === '0' ? '💡 Lumière éteinte' : '💡 Lumière changée');
+    });
+  });
+
+  // Pendant qu'un doigt tient le curseur, on ignore l'etat qui revient de la
+  // boite : sinon il sauterait sous le doigt a chaque message retenu.
+  ['pointerdown', 'touchstart'].forEach((e) =>
+    vol.addEventListener(e, () => { curseurTenu = true; }, { passive: true }));
+  ['pointerup', 'touchend', 'pointercancel'].forEach((e) =>
+    vol.addEventListener(e, () => { curseurTenu = false; }, { passive: true }));
+
+  vol.addEventListener('input', () => peindre(Number(vol.value)));
+  // On n'envoie qu'au relachement : un message par pixel glisse noierait la
+  // boite, qui ecrit le volume en memoire permanente a chaque fois.
+  vol.addEventListener('change', () => {
+    const pct = Number(vol.value);
+    if (envoyer('/audio/volume', Math.round(pct / 100 * vMax)))
+      dire(pct === 0 ? '🔇 Silencieux' : '🔊 Volume ' + pct + ' %');
+  });
+  peindre(Number(vol.value));
+}
+</script>
+</body>
+</html>

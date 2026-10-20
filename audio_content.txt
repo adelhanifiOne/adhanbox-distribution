@@ -1,0 +1,59 @@
+# AdhanBox V2 - manifeste de contenu audio (sync auto WiFi) - tout en HTTPS
+# Format: chemin|URL
+
+# --- Adhans (joues par NUMERO) : 0001=duaa 0003=fajr, autres=muezzins ---
+# Sources 128 kbps (archive.org) au lieu des islamcan 24-40 kbps.
+# 0001 : duaa personnalisee hebergee dans ce repo (audio/0001.mp3)
+/mp3/0001.mp3|https://raw.githubusercontent.com/adelhanifiOne/adhanbox/main/audio/0001.mp3
+/mp3/0002.mp3|https://archive.org/download/adhan.notifications/Ahmed_al_Imadi_Adhan.mp3
+/mp3/0003.mp3|https://archive.org/download/adhan.notifications/Mishary_Rashid_al_Afasy_Fajr_Adhan.mp3
+/mp3/0004.mp3|https://archive.org/download/adhan.notifications/Mokhtar_Hadj_Slimane_Adhan.mp3
+/mp3/0005.mp3|https://archive.org/download/adhan.notifications/Nasser_al_Qatami_Adhan.mp3
+/mp3/0006.mp3|https://archive.org/download/adhan.notifications/Majed_al_Hamathani_Adhan.mp3
+
+# --- Catalogue de l'app (catalogue_audio.json) : choisis pour une priere ---
+# Fajr (formule « as-salatu khayrun mina n-nawm ») : 0003, 0007, 0012, 0031-0035.
+/mp3/0007.mp3|https://raw.githubusercontent.com/adelhanifiOne/adhanbox/main/audio/adhan_doha_fajr.mp3
+/mp3/0008.mp3|https://raw.githubusercontent.com/adelhanifiOne/adhanbox/main/audio/adhan_doha_dhuhr.mp3
+/mp3/0012.mp3|https://archive.org/download/28MayFajrAdhanMakkah/28MayFajrAdhanMakkah.mp3
+
+# Pistes 13+ : nouvelles voix (24/09/2026). 9-11 retirees, numeros reserves.
+# 06/10/2026 : les 23 voix s'arretaient a ~80 Ko sur une box (TRUNC). Ce n'etait pas
+# l'hebergeur (meme chose depuis Vercel) mais la carte SD qui refusait l'ecriture apres
+# une rafale ; corrige dans le firmware 3.0.53 (ecriture par 32 Ko, reprise). Les 23
+# fichiers restent aussi disponibles sur https://adhanbox-commande.vercel.app/audio/adhans/.
+/mp3/0013.mp3|https://raw.githubusercontent.com/adelhanifiOne/adhanbox/main/audio/adhans/suraihi.mp3
+/mp3/0014.mp3|https://raw.githubusercontent.com/adelhanifiOne/adhanbox/main/audio/adhans/fouad-adan.mp3
+/mp3/0015.mp3|https://raw.githubusercontent.com/adelhanifiOne/adhanbox/main/audio/adhans/nisad.mp3
+/mp3/0016.mp3|https://raw.githubusercontent.com/adelhanifiOne/adhanbox/main/audio/adhans/al-aqsa.mp3
+/mp3/0017.mp3|https://raw.githubusercontent.com/adelhanifiOne/adhanbox/main/audio/adhans/haram-makkah.mp3
+/mp3/0018.mp3|https://raw.githubusercontent.com/adelhanifiOne/adhanbox/main/audio/adhans/abdulsattar.mp3
+/mp3/0019.mp3|https://raw.githubusercontent.com/adelhanifiOne/adhanbox/main/audio/adhans/rajab.mp3
+/mp3/0020.mp3|https://raw.githubusercontent.com/adelhanifiOne/adhanbox/main/audio/adhans/dewli.mp3
+/mp3/0021.mp3|https://raw.githubusercontent.com/adelhanifiOne/adhanbox/main/audio/adhans/khashoggi.mp3
+/mp3/0022.mp3|https://raw.githubusercontent.com/adelhanifiOne/adhanbox/main/audio/adhans/a-bukhari.mp3
+/mp3/0023.mp3|https://raw.githubusercontent.com/adelhanifiOne/adhanbox/main/audio/adhans/m-najdi.mp3
+/mp3/0024.mp3|https://raw.githubusercontent.com/adelhanifiOne/adhanbox/main/audio/adhans/mulla.mp3
+/mp3/0025.mp3|https://raw.githubusercontent.com/adelhanifiOne/adhanbox/main/audio/adhans/naamani.mp3
+/mp3/0026.mp3|https://raw.githubusercontent.com/adelhanifiOne/adhanbox/main/audio/adhans/e-bukhari.mp3
+/mp3/0027.mp3|https://raw.githubusercontent.com/adelhanifiOne/adhanbox/main/audio/adhans/kamal.mp3
+/mp3/0028.mp3|https://raw.githubusercontent.com/adelhanifiOne/adhanbox/main/audio/adhans/k-najdi.mp3
+/mp3/0029.mp3|https://raw.githubusercontent.com/adelhanifiOne/adhanbox/main/audio/adhans/hakim.mp3
+/mp3/0030.mp3|https://raw.githubusercontent.com/adelhanifiOne/adhanbox/main/audio/adhans/m-hakim.mp3
+/mp3/0031.mp3|https://raw.githubusercontent.com/adelhanifiOne/adhanbox/main/audio/adhans/fouad-adan-fajr.mp3
+/mp3/0032.mp3|https://raw.githubusercontent.com/adelhanifiOne/adhanbox/main/audio/adhans/afifi-fajr.mp3
+/mp3/0033.mp3|https://raw.githubusercontent.com/adelhanifiOne/adhanbox/main/audio/adhans/dewli-fajr.mp3
+/mp3/0034.mp3|https://raw.githubusercontent.com/adelhanifiOne/adhanbox/main/audio/adhans/e-bukhari-fajr.mp3
+/mp3/0035.mp3|https://raw.githubusercontent.com/adelhanifiOne/adhanbox/main/audio/adhans/f-naamani-fajr.mp3
+
+# --- Azkar / Coran (joues par CHEMIN) ---
+# /azkar/sabah.mp3|https://archive.org/download/sheikh-mishary-rashid-alafasy-azkar/Sheikh%20Mishary%20Rashid%20Alafasy%20-%20%D8%A3%D8%B0%D9%83%D8%A7%D8%B1%20%D8%A7%D9%84%D8%B5%D8%A8%D8%A7%D8%AD.mp3
+# /azkar/masaa.mp3|https://archive.org/download/sheikh-mishary-rashid-alafasy-azkar/Sheikh%20Mishary%20Rashid%20Alafasy%20-%20%D8%A3%D8%B0%D9%83%D8%A7%D8%B1%20%D8%A7%D9%84%D9%85%D8%B3%D8%A7%D8%A1.mp3
+# Azkar de la nuit (20/10/2026) : la fin de l'enregistrement « soir » d'Alafasy,
+# separee a 20:53 (sd_preload/azkar/masaa.mp3 ne garde que le soir sur les
+# nouvelles cartes). Seul fichier azkar telecharge : les box deja livrees
+# l'ajoutent, leur masaa.mp3 (present) reste tel quel.
+/azkar/layl.mp3|https://raw.githubusercontent.com/adelhanifiOne/adhanbox/main/audio/azkar/layl.mp3
+# /quran/al-mulk.mp3|https://server8.mp3quran.net/afs/067.mp3
+# /quran/al-kahf.mp3|https://server8.mp3quran.net/afs/018.mp3
+
